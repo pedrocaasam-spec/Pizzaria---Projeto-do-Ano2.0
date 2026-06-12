@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Originais Pizza — Pizzaria Artesanal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0D0D0D;
+    --deep: #141414;
+    --card: #1A1A1A;
+    --border: #2A2A2A;
+    --red: #C41E3A;
+    --red-dark: #9B1830;
+    --gold: #D4AF37;
+    --gold-light: #E8C84A;
+    --cream: #F5ECD7;
+    --cream-dim: #C8B89A;
+    --white: #FFFFFF;
+    --text: #E8E0D0;
+    --muted: #7A7060;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--black);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── PAGES ── */
+  .page { display: none; min-height: 100vh; }
+  .page.active { display: block; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 60px;
+    background: linear-gradient(to bottom, rgba(13,13,13,0.95), transparent);
+    backdrop-filter: blur(8px);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; font-weight: 700; letter-spacing: 2px;
+    color: var(--gold);
+    text-shadow: 0 0 30px rgba(212,175,55,0.4);
+    cursor: pointer;
+  }
+  .nav-logo span { font-style: italic; color: var(--cream); }
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a {
+    font-size: 0.8rem; font-weight: 500; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--cream-dim);
+    cursor: pointer; text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .btn-nav {
+    padding: 10px 24px;
+    border: 1px solid var(--gold);
+    background: transparent; color: var(--gold);
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; cursor: pointer;
+    transition: all 0.3s;
+  }
+  .btn-nav:hover { background: var(--gold); color: var(--black); }
+
+  /* ── HERO ── */
+  #page-home {
+    background: var(--black);
+  }
+  .hero {
+    position: relative; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: 
+      radial-gradient(ellipse at 50% 80%, rgba(196,30,58,0.25) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(212,175,55,0.08) 0%, transparent 50%),
+      linear-gradient(180deg, #0D0D0D 0%, #1a0a0a 50%, #0D0D0D 100%);
+  }
+  /* Flame particles */
+  .flames {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 300px;
+    overflow: hidden; pointer-events: none;
+  }
+  .flame {
+    position: absolute; bottom: 0;
+    width: 3px; border-radius: 50% 50% 0 0;
+    animation: flicker linear infinite;
+    transform-origin: bottom center;
+  }
+  @keyframes flicker {
+    0%   { transform: scaleY(0.8) scaleX(1) translateX(0); opacity: 0.8; }
+    25%  { transform: scaleY(1.2) scaleX(0.8) translateX(2px); opacity: 1; }
+    50%  { transform: scaleY(0.9) scaleX(1.1) translateX(-2px); opacity: 0.7; }
+    75%  { transform: scaleY(1.3) scaleX(0.9) translateX(1px); opacity: 0.9; }
+    100% { transform: scaleY(0.8) scaleX(1) translateX(0); opacity: 0.8; }
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    text-align: center; padding: 0 20px;
+  }
+  .hero-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem; font-weight: 500; letter-spacing: 6px;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 24px;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(4rem, 9vw, 8rem);
+    font-weight: 900; line-height: 0.9;
+    color: var(--cream);
+    margin-bottom: 8px;
+  }
+  .hero-title em {
+    font-style: italic; color: var(--red);
+    display: block;
+    text-shadow: 0 0 60px rgba(196,30,58,0.6);
+  }
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-style: italic;
+    color: var(--cream-dim); margin: 28px 0 44px;
+    letter-spacing: 1px;
+  }
+  .hero-cta {
+    display: inline-flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+  }
+  /* ── ABOUT STRIP ── */
+  .strip {
+    padding: 80px 60px;
+    background: var(--deep);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center; gap: 80px;
+    flex-wrap: wrap; text-align: center;
+  }
+  .strip-item 
+  .strip-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem; font-weight: 900; color: var(--gold);
+    line-height: 1;
+  }
+  .strip-label {
+    font-size: 0.7rem; font-weight: 500; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--muted); margin-top: 8px;
+  }
+  .strip-divider {
+    width: 1px; height: 60px;
+    background: var(--border);
+  }
+
+  /* ── MENU SECTION ── */
+  .section {
+    padding: 100px 60px;
+  }
+  .section-header {
+    text-align: center; margin-bottom: 64px;
+  }
+  .section-eyebrow {
+    font-size: 0.65rem; font-weight: 600; letter-spacing: 5px;
+    text-transform: uppercase; color: var(--red);
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 4vw, 3.5rem); font-weight: 700;
+    color: var(--cream); line-height: 1.1;
+  }
+  .section-title em { font-style: italic; color: var(--gold); }
+  .pizza-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2px; max-width: 1200px; margin: 0 auto;
+  }
+  .pizza-card {
+    background: var(--card);
+    padding: 40px 36px;
+    border: 1px solid var(--border);
+    transition: all 0.4s;
+    cursor: default;
+    position: relative; overflow: hidden;
+  }
+  .pizza-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(196,30,58,0.05), transparent);
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .pizza-card:hover { border-color: rgba(212,175,55,0.3); transform: translateY(-4px); }
+  .pizza-card:hover::before { opacity: 1; }
+  .pizza-emoji { font-size: 2.8rem; margin-bottom: 20px; display: block; }
+  .pizza-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; font-weight: 700; color: var(--cream);
+    margin-bottom: 10px;
+  }
+  .pizza-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.7; margin-bottom: 20px; }
+  .pizza-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; font-weight: 700; color: var(--gold);
+  }
+  .pizza-price span { font-size: 0.75rem; color: var(--muted); font-family: 'Inter', sans-serif; font-weight: 400; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 60px;
+    background: var(--deep);
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 24px;
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; font-weight: 700; color: var(--gold);
+  }
+  .footer-copy { font-size: 0.75rem; color: var(--muted); }
+  .footer-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; font-style: italic; color: var(--cream-dim);
+  }
+
+  /* ── AUTH PAGES ── */
+  .auth-page {
+    min-height: 100vh;
+    display: flex;
+    background: var(--black);
+  }
+  .auth-art {
+    flex: 1; position: relative; overflow: hidden;
+    background: linear-gradient(135deg, #1a0505 0%, #2d0a0a 50%, #1a1005 100%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .auth-art-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 60%, rgba(196,30,58,0.4), transparent 60%),
+      radial-gradient(ellipse at 70% 30%, rgba(212,175,55,0.15), transparent 50%);
+  }
+  .auth-art-text {
+    position: relative; z-index: 2; text-align: center; padding: 40px;
+  }
+  .auth-art-text h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem; font-weight: 900; line-height: 0.95;
+    color: var(--cream);
+  }
+  .auth-art-text h2 em { font-style: italic; color: var(--red); display: block; }
+  .auth-art-text p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; font-style: italic; color: var(--cream-dim);
+    margin-top: 20px;
+  }
+  .auth-form-panel {
+    width: 520px; min-width: 320px;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 60px 52px;
+    background: var(--deep);
+    border-left: 1px solid var(--border);
+    overflow-y: auto;
+  }
+  .auth-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; font-weight: 700; color: var(--cream);
+    margin-bottom: 8px;
+  }
+  .auth-sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 36px; }
+  .auth-sub a { color: var(--gold); cursor: pointer; text-decoration: none; }
+  .auth-sub a:hover { text-decoration: underline; }
+
+  .form-group { margin-bottom: 20px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-label {
+    display: block; font-size: 0.7rem; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+  }
+  .form-input {
+    width: 100%; padding: 14px 16px;
+    background: var(--card); border: 1px solid var(--border);
+    color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.9rem;
+    transition: border-color 0.3s;
+    outline: none;
+  }
+  .form-input:focus { border-color: var(--gold); }
+  .form-input::placeholder { color: var(--muted); }
+  .form-select {
+    width: 100%; padding: 14px 16px;
+    background: var(--card); border: 1px solid var(--border);
+    color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.9rem;
+    transition: border-color 0.3s; outline: none; cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237A7060' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 16px center;
+  }
+  .form-select:focus { border-color: var(--gold); }
+  .form-select option { background: var(--card); }
+  .btn-full {
+    width: 100%; padding: 16px;
+    background: var(--red); color: var(--white);
+    font-size: 0.8rem; font-weight: 600; letter-spacing: 3px;
+    text-transform: uppercase; border: none; cursor: pointer;
+    transition: all 0.3s; margin-top: 8px;
+  }
+  .btn-full:hover { background: var(--red-dark); box-shadow: 0 4px 20px rgba(196,30,58,0.4); }
+  .divider-text {
+    text-align: center; font-size: 0.75rem; color: var(--muted);
+    margin: 20px 0; position: relative;
+  }
+  .divider-text::before, .divider-text::after {
+    content: ''; position: absolute; top: 50%;
+    width: 40%; height: 1px; background: var(--border);
+  }
+  .divider-text::before { left: 0; }
+  .divider-text::after { right: 0; }
+  .form-section-title {
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--gold);
+    margin: 28px 0 16px; padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  .alert {
+    padding: 12px 16px; margin-bottom: 20px;
+    font-size: 0.8rem; font-weight: 500;
+    border-left: 3px solid;
+  }
+  .alert-error { border-color: var(--red); background: rgba(196,30,58,0.1); color: #ff8a9a; }
+  .alert-success { border-color: var(--gold); background: rgba(212,175,55,0.1); color: var(--gold); }
+
+  /* ── DASHBOARD ── */
+  #page-dashboard {
+    background: var(--black); padding-top: 80px;
+  }
+  .dashboard-layout {
+    display: flex; min-height: calc(100vh - 80px);
+  }
+  .sidebar {
+    width: 260px; background: var(--deep);
+    border-right: 1px solid var(--border);
+    padding: 40px 0; flex-shrink: 0;
+  }
+  .sidebar-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; font-weight: 700; color: var(--gold);
+    padding: 0 28px 32px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+  .sidebar-logo small {
+    display: block; font-family: 'Inter', sans-serif;
+    font-size: 0.65rem; letter-spacing: 2px; color: var(--muted);
+    text-transform: uppercase; font-weight: 500; margin-top: 4px;
+  }
+  .sidebar-nav-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 28px; cursor: pointer;
+    font-size: 0.82rem; font-weight: 500; color: var(--muted);
+    transition: all 0.2s; border-left: 2px solid transparent;
+  }
+  .sidebar-nav-item:hover { color: var(--cream); background: rgba(255,255,255,0.03); }
+  .sidebar-nav-item.active { color: var(--gold); border-left-color: var(--gold); background: rgba(212,175,55,0.05); }
+  .sidebar-icon { width: 16px; text-align: center; font-size: 0.9rem; }
+  .sidebar-footer {
+    padding: 24px 28px 0;
+    border-top: 1px solid var(--border);
+    margin-top: auto;
+  }
+  .admin-badge {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 0.78rem; color: var(--muted);
+  }
+  .admin-avatar {
+    width: 32px; height: 32px;
+    background: var(--red); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 700; color: white;
+    flex-shrink: 0;
+  }
+  .admin-name { font-weight: 600; color: var(--cream); font-size: 0.82rem; }
+  .admin-role { font-size: 0.68rem; color: var(--red); letter-spacing: 1px; text-transform: uppercase; }
+
+  .dash-main { flex: 1; padding: 40px 48px; overflow-y: auto; }
+  .dash-header { margin-bottom: 36px; }
+  .dash-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; font-weight: 700; color: var(--cream);
+  }
+  .dash-header p { font-size: 0.85rem; color: var(--muted); margin-top: 6px; }
+  .dash-header span { color: var(--gold); }
+
+  .kpi-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 36px;
+  }
+  .kpi-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 28px 24px;
+    position: relative; overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .kpi-card:hover { border-color: rgba(212,175,55,0.3); }
+  .kpi-card::after {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  }
+  .kpi-card.red::after { background: var(--red); }
+  .kpi-card.gold::after { background: var(--gold); }
+  .kpi-card.green::after { background: #4CAF50; }
+  .kpi-card.blue::after { background: #5B9BD5; }
+  .kpi-icon { font-size: 1.4rem; margin-bottom: 16px; }
+  .kpi-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem; font-weight: 900; color: var(--cream); line-height: 1;
+  }
+  .kpi-label {
+    font-size: 0.68rem; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--muted); margin-top: 8px;
+  }
+  .kpi-change {
+    font-size: 0.75rem; font-weight: 500; margin-top: 8px;
+  }
+  .kpi-change.up { color: #4CAF50; }
+  .kpi-change.down { color: var(--red); }
+
+  .dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 36px; }
+  .dash-card {
+    background: var(--card); border: 1px solid var(--border);
+    padding: 28px;
+  }
+  .dash-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; font-weight: 700; color: var(--cream);
+    margin-bottom: 20px; display: flex; align-items: center; gap: 8px;
+  }
+  .dash-card h3::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+
+  /* Chart bars */
+  .bar-chart { display: flex; align-items: flex-end; gap: 8px; height: 120px; }
+  .bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .bar {
+    width: 100%; background: var(--red);
+    border-radius: 2px 2px 0 0;
+    transition: background 0.3s;
+    position: relative;
+  }
+  .bar:hover { background: var(--gold); }
+  .bar-label { font-size: 0.6rem; color: var(--muted); letter-spacing: 1px; }
+
+  /* Activity log */
+  .activity-list { display: flex; flex-direction: column; gap: 1px; }
+  .activity-item {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 0; border-bottom: 1px solid var(--border);
+    font-size: 0.8rem;
+  }
+  .activity-item:last-child { border-bottom: none; }
+  .activity-dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+  .dot-login { background: #4CAF50; }
+  .dot-register { background: var(--gold); }
+  .dot-logout { background: var(--muted); }
+  .activity-text { flex: 1; color: var(--text); }
+  .activity-text strong { color: var(--cream); }
+  .activity-time { color: var(--muted); font-size: 0.72rem; flex-shrink: 0; }
+  .activity-badge {
+    padding: 3px 8px; font-size: 0.6rem; font-weight: 600;
+    letter-spacing: 1px; text-transform: uppercase;
+    border-radius: 2px;
+  }
+  .badge-login { background: rgba(76,175,80,0.15); color: #4CAF50; }
+  .badge-register { background: rgba(212,175,55,0.15); color: var(--gold); }
+  .badge-logout { background: rgba(122,112,96,0.15); color: var(--muted); }
+
+  /* Users table */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+  .data-table th {
+    text-align: left; padding: 10px 16px;
+    font-size: 0.65rem; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table td {
+    padding: 14px 16px; border-bottom: 1px solid rgba(42,42,42,0.5);
+    color: var(--text);
+  }
+  .data-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .status-dot {
+    display: inline-block; width: 6px; height: 6px;
+    border-radius: 50%; margin-right: 8px;
+    background: #4CAF50;
+  }
+  .status-dot.off { background: var(--muted); }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 32px; right: 32px; z-index: 9999;
+    padding: 16px 24px;
+    background: var(--card); border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    font-size: 0.85rem; color: var(--text);
+    transform: translateY(120px); opacity: 0;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    max-width: 320px;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast strong { color: var(--gold); display: block; margin-bottom: 4px; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; }
+
+  /* Profile page */
+  #page-profile {
+    background: var(--black); padding-top: 100px; min-height: 100vh;
+  }
+  .profile-container { max-width: 800px; margin: 0 auto; padding: 60px; }
+  .profile-header {
+    display: flex; align-items: center; gap: 24px; margin-bottom: 48px;
+    padding-bottom: 32px; border-bottom: 1px solid var(--border);
+  }
+  .profile-avatar {
+    width: 72px; height: 72px;
+    background: var(--red); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem; font-weight: 700; color: white;
+  }
+  .profile-info h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem; color: var(--cream);
+  }
+  .profile-info p { font-size: 0.82rem; color: var(--muted); margin-top: 4px; }
+  .profile-section {
+    background: var(--card); border: 1px solid var(--border);
+    padding: 28px; margin-bottom: 20px;
+  }
+  .profile-section h3 {
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 20px;
+  }
+  .profile-field { display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 0; border-bottom: 1px solid rgba(42,42,42,0.5); }
+  .profile-field:last-child { border-bottom: none; }
+  .profile-field-label { font-size: 0.75rem; color: var(--muted); }
+  .profile-field-value { font-size: 0.85rem; color: var(--cream); font-weight: 500; }
+
+  /* Logout button */
+  .btn-logout {
+    padding: 10px 24px;
+    border: 1px solid rgba(196,30,58,0.4);
+    background: transparent; color: var(--red);
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; cursor: pointer;
+    transition: all 0.3s;
+  }
+  .btn-logout:hover { background: rgba(196,30,58,0.1); border-color: var(--red); }
+
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .section { padding: 60px 24px; }
+    .strip { padding: 48px 24px; gap: 40px; }
+    .kpi-grid { grid-template-columns: 1fr 1fr; }
+    .dash-grid { grid-template-columns: 1fr; }
+    .auth-art { display: none; }
+    .auth-form-panel { width: 100%; padding: 40px 32px; }
+    .profile-container { padding: 40px 24px; }
+    footer { padding: 40px 24px; }
+    .sidebar { width: 220px; }
+    .dash-main { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<nav id="main-nav">
+  <div class="nav-logo" onclick="showPage('home')">Originais <span>Pizza</span></div>
+  <div class="nav-links" id="nav-links">
+    <a onclick="showPage('home')">Início</a>
+    <a onclick="scrollToMenu()">Cardápio</a>
+    <a onclick="showPage('home')">Sobre</a>
+    <span id="nav-auth-btn">
+      <button class="btn-nav" onclick="showPage('login')">Entrar</button>
+    </span>
+  </div>
+</nav>
+
+<!-- ══════════ HOME ══════════ -->
+<div id="page-home" class="page active">
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="flames" id="flames"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">✦ Desde 1987 · Roma no Brasil ✦</p>
+      <h1 class="hero-title">
+        A Arte da
+        <em>Pizza</em>
+        Artesanal
+      </h1>
+      <p class="hero-subtitle">Farinha importada, forno a lenha, receitas que atravessaram gerações.</p>
+      <div class="hero-cta">
+        <button class="btn-primary" onclick="showPage('register')">Criar Conta</button>
+        <button class="btn-ghost" onclick="scrollToMenu()">Ver Cardápio</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Strip -->
+  <div class="strip">
+    <div class="strip-item">
+      <div class="strip-num">37</div>
+      <div class="strip-label">Anos de história</div>
+    </div>
+    <div class="strip-divider"></div>
+    <div class="strip-item">
+      <div class="strip-num">6</div>
+      <div class="strip-label">Sabores no cardápio</div>
+    </div>
+    <div class="strip-divider"></div>
+    <div class="strip-item">
+      <div class="strip-num">490°</div>
+      <div class="strip-label">Temperatura do forno</div>
+    </div>
+    <div class="strip-divider"></div>
+    <div class="strip-item">
+      <div class="strip-num">72h</div>
+      <div class="strip-label">Fermentação da massa</div>
+    </div>
+  </div>
+
+  <!-- Menu -->
+  <section class="section" id="menu-section">
+    <div class="section-header">
+      <p class="section-eyebrow">✦ Nosso cardápio ✦</p>
+      <h2 class="section-title">Pizzas que <em>marcam</em> memória</h2>
+    </div>
+    <div class="pizza-grid">
+      <div class="pizza-card">
+        
+        <div class="pizza-name">Margherita Clássica</div>
+        <div class="pizza-desc">Molho San Marzano, mozzarella de búfala fresca, manjericão colhido na hora e azeite extravirgem.</div>
+        <div class="pizza-price">R$ 62 <span>/ individual</span></div>
+      </div>
+      <div class="pizza-card">
+        <div class="pizza-name">Fiamma Diavola</div>
+        <div class="pizza-desc">Salame picante importado, nduja calabresa, pimenta calabresa, mozzarella e mel de trufa.</div>
+        <div class="pizza-price">R$ 79 <span>/ individual</span></div>
+      </div>
+      <div class="pizza-card">
+        <div class="pizza-name">Tartufo Bianco</div>
+        <div class="pizza-desc">Base de ricota, cogumelos shimeji e shiitake, azeite de trufa, parmesão 24 meses e rúcula.</div>
+        <div class="pizza-price">R$ 94 <span>/ individual</span></div>
+      </div>
+      <div class="pizza-card">
+        <div class="pizza-name">Bistecca & Gorgonzola</div>
+        <div class="pizza-desc">Fatias de filé mignon selado, gorgonzola DOP, cebola caramelizada e tomilho fresco.</div>
+        <div class="pizza-price">R$ 102 <span>/ individual</span></div>
+      </div>
+      <div class="pizza-card">
+        <div class="pizza-name">Frutti di Mare</div>
+        <div class="pizza-desc">Camarão rosa, lula em anéis, tomate cereja assado, alcaparras, base branca e limão siciliano.</div>
+        <div class="pizza-price">R$ 110 <span>/ individual</span></div>
+      </div>
+      <div class="pizza-card">
+        <div class="pizza-name">Cioccolato & Sale</div>
+        <div class="pizza-desc">Sobremesa: ganache de chocolate 70%, caramelo salgado, avelã tostada e flor de sal do Himalaia.</div>
+        <div class="pizza-price">R$ 58 <span>/ individual</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Originais Pizza</div>
+    <div class="footer-tagline">Forno a lenha, sabor original</div>
+    <div class="footer-copy">© 2026 Originais Pizza. Todos os direitos reservados.</div>
+  </footer>
+</div>
+
+<!-- ══════════ LOGIN ══════════ -->
+<div id="page-login" class="page">
+  <div class="auth-page">
+    <div class="auth-art">
+      <div class="auth-art-bg"></div>
+      <div class="auth-art-text">
+        <h2>Bem-vindo<em>de volta.</em></h2>
+        <p>Sua mesa favorita está esperando.</p>
+      </div>
+    </div>
+    <div class="auth-form-panel">
+      <div style="margin-bottom:40px;cursor:pointer;color:var(--muted);font-size:0.8rem;letter-spacing:1px" onclick="showPage('home')">
+        ← Voltar ao início
+      </div>
+      <h1 class="auth-title">Entrar</h1>
+      <p class="auth-sub">Novo por aqui? <a onclick="showPage('register')">Criar uma conta</a></p>
+      <div id="login-alert"></div>
+      <div class="form-group">
+        <label class="form-label">E-mail</label>
+        <input type="email" id="login-email" class="form-input" placeholder="seu@email.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Senha</label>
+        <input type="password" id="login-password" class="form-input" placeholder="••••••••">
+      </div>
+      <button class="btn-full" onclick="doLogin()">Entrar na Conta</button>
+      <p style="font-size:0.75rem;color:var(--muted);text-align:center;margin-top:20px">
+        Acesso ADM? Use as credenciais fornecidas pela administração.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ REGISTER ══════════ -->
+<div id="page-register" class="page">
+  <div class="auth-page">
+    <div class="auth-art">
+      <div class="auth-art-bg"></div>
+      <div class="auth-art-text">
+        <h2>Faça parte<em>da família.</em></h2>
+        <p>Cadastre-se e ganhe acesso a promoções exclusivas.</p>
+      </div>
+    </div>
+    <div class="auth-form-panel">
+      <div style="margin-bottom:32px;cursor:pointer;color:var(--muted);font-size:0.8rem;letter-spacing:1px" onclick="showPage('home')">
+        ← Voltar ao início
+      </div>
+      <h1 class="auth-title">Criar Conta</h1>
+      <p class="auth-sub">Já tem conta? <a onclick="showPage('login')">Entrar</a></p>
+      <div id="register-alert"></div>
+
+      <p class="form-section-title" style="border-top:none;padding-top:0;margin-top:0">Dados Pessoais</p>
+      <div class="form-group">
+        <label class="form-label">Nome completo</label>
+        <input type="text" id="reg-name" class="form-input" placeholder="Maria da Silva">
+      </div>
+      <div class="form-group">
+        <label class="form-label">CPF</label>
+        <input type="text" id="reg-cpf" class="form-input" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)">
+      </div>
+      <div class="form-group">
+        <label class="form-label">E-mail</label>
+        <input type="email" id="reg-email" class="form-input" placeholder="maria@email.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Endereço</label>
+        <input type="text" id="reg-address" class="form-input" placeholder="Rua das Flores, 123 — São Paulo, SP">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Senha</label>
+        <input type="password" id="reg-password" class="form-input" placeholder="Mínimo 6 caracteres">
+      </div>
+
+      <p class="form-section-title">Pagamento</p>
+      <div class="form-group">
+        <label class="form-label">Método de pagamento</label>
+        <select id="reg-payment" class="form-select">
+          <option value="">Selecione...</option>
+          <option value="credit">Cartão de Crédito</option>
+          <option value="debit">Cartão de Débito</option>
+          <option value="pix">PIX</option>
+          <option value="cash">Dinheiro</option>
+          <option value="voucher">Vale Refeição</option>
+        </select>
+      </div>
+      <div id="card-fields">
+        <div class="form-group">
+          <label class="form-label">Número do cartão</label>
+          <input type="text" id="reg-card" class="form-input" placeholder="0000 0000 0000 0000" maxlength="19" oninput="maskCard(this)">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Validade</label>
+          <input type="text" id="reg-expiry" class="form-input" placeholder="MM/AA" maxlength="5" oninput="maskExpiry(this)">
+        </div>
+      </div>
+
+      <button class="btn-full" onclick="doRegister()">Criar Minha Conta</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ PROFILE ══════════ -->
+<div id="page-profile" class="page">
+  <div class="profile-container">
+    <div class="profile-header">
+      <div class="profile-avatar" id="profile-avatar">?</div>
+      <div class="profile-info">
+        <h1 id="profile-name">–</h1>
+        <p id="profile-email-disp">–</p>
+      </div>
+      <button class="btn-logout" style="margin-left:auto" onclick="doLogout()">Sair</button>
+    </div>
+    <div class="profile-section">
+      <h3>Dados Pessoais</h3>
+      <div class="profile-field"><span class="profile-field-label">Nome</span><span class="profile-field-value" id="pf-name">–</span></div>
+      <div class="profile-field"><span class="profile-field-label">CPF</span><span class="profile-field-value" id="pf-cpf">–</span></div>
+      <div class="profile-field"><span class="profile-field-label">E-mail</span><span class="profile-field-value" id="pf-email">–</span></div>
+      <div class="profile-field"><span class="profile-field-label">Endereço</span><span class="profile-field-value" id="pf-address">–</span></div>
+    </div>
+    <div class="profile-section">
+      <h3>Pagamento</h3>
+      <div class="profile-field"><span class="profile-field-label">Método</span><span class="profile-field-value" id="pf-payment">–</span></div>
+      <div class="profile-field"><span class="profile-field-label">Cartão</span><span class="profile-field-value" id="pf-card">–</span></div>
+      <div class="profile-field"><span class="profile-field-label">Validade</span><span class="profile-field-value" id="pf-expiry">–</span></div>
+    </div>
+    <div class="profile-section">
+      <h3>Conta</h3>
+      <div class="profile-field"><span class="profile-field-label">Cadastrado em</span><span class="profile-field-value" id="pf-date">–</span></div>
+      <div class="profile-field"><span class="profile-field-label">Total de logins</span><span class="profile-field-value" id="pf-logins">–</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ DASHBOARD ══════════ -->
+<div id="page-dashboard" class="page">
+  <div class="dashboard-layout">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-logo">
+        Originais Pizza
+        <small>Painel ADM</small>
+      </div>
+      <div class="sidebar-nav-item active" onclick="switchDashTab(this,'tab-overview')">
+        <span class="sidebar-icon">📊</span> Visão Geral
+      </div>
+      <div class="sidebar-nav-item" onclick="switchDashTab(this,'tab-users')">
+        <span class="sidebar-icon">👥</span> Usuários
+      </div>
+      <div class="sidebar-nav-item" onclick="switchDashTab(this,'tab-activity')">
+        <span class="sidebar-icon">🕐</span> Atividade
+      </div>
+      <div class="sidebar-nav-item" onclick="switchDashTab(this,'tab-admins')">
+        <span class="sidebar-icon">🔑</span> Administradores
+      </div>
+      <div style="flex:1"></div>
+      <div class="sidebar-footer">
+        <div class="admin-badge">
+          <div class="admin-avatar" id="dash-avatar">A</div>
+          <div>
+            <div class="admin-name" id="dash-admin-name">ADM</div>
+            <div class="admin-role">Administrador</div>
+          </div>
+        </div>
+        <button class="btn-logout" style="margin-top:16px;width:100%;font-size:0.7rem;padding:8px" onclick="doLogout()">Sair</button>
+      </div>
+    </div>
+
+    <!-- Main -->
+    <div class="dash-main">
+      <!-- Tab: Overview -->
+      <div id="tab-overview">
+        <div class="dash-header">
+          <h1>Visão Geral</h1>
+          <p>Bem-vindo, <span id="dash-greeting">Administrador</span>. Aqui está o resumo de hoje.</p>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card red">
+            <div class="kpi-icon">👤</div>
+            <div class="kpi-value" id="kpi-total">0</div>
+            <div class="kpi-label">Total de Usuários</div>
+            <div class="kpi-change up" id="kpi-total-change">↑ 0 novos hoje</div>
+          </div>
+          <div class="kpi-card gold">
+            <div class="kpi-icon">🔓</div>
+            <div class="kpi-value" id="kpi-logins">0</div>
+            <div class="kpi-label">Logins Hoje</div>
+            <div class="kpi-change up">↑ Atualizado agora</div>
+          </div>
+          <div class="kpi-card green">
+            <div class="kpi-icon">✅</div>
+            <div class="kpi-value" id="kpi-active">0</div>
+            <div class="kpi-label">Online Agora</div>
+            <div class="kpi-change up">Sessões ativas</div>
+          </div>
+          <div class="kpi-card blue">
+            <div class="kpi-icon">📝</div>
+            <div class="kpi-value" id="kpi-registers">0</div>
+            <div class="kpi-label">Cadastros Hoje</div>
+            <div class="kpi-change up">↑ Novos membros</div>
+          </div>
+        </div>
+
+        <div class="dash-grid">
+          <div class="dash-card">
+            <h3>Logins por dia (semana)</h3>
+            <div class="bar-chart" id="bar-chart"></div>
+          </div>
+          <div class="dash-card">
+            <h3>Atividade Recente</h3>
+            <div class="activity-list" id="activity-list-mini"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Users -->
+      <div id="tab-users" style="display:none">
+        <div class="dash-header">
+          <h1>Usuários Cadastrados</h1>
+          <p>Todos os membros registrados na plataforma.</p>
+        </div>
+        <div class="dash-card">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>CPF</th>
+                <th>Pagamento</th>
+                <th>Cadastro</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="users-table-body">
+              <tr><td colspan="6" style="color:var(--muted);text-align:center;padding:32px">Nenhum usuário cadastrado ainda.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab: Activity -->
+      <div id="tab-activity" style="display:none">
+        <div class="dash-header">
+          <h1>Log de Atividade</h1>
+          <p>Histórico completo de eventos do sistema.</p>
+        </div>
+        <div class="dash-card">
+          <div class="activity-list" id="activity-list-full"></div>
+        </div>
+      </div>
+
+      <!-- Tab: Admins -->
+      <div id="tab-admins" style="display:none">
+        <div class="dash-header">
+          <h1>Administradores</h1>
+          <p>Contas com acesso privilegiado ao painel.</p>
+        </div>
+        <div class="dash-card">
+          <table class="data-table">
+            <thead>
+              <tr><th>Nome</th><th>E-mail</th><th>Nível</th><th>Último acesso</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>🔑 Pedro Luiz</td>
+                <td>pedro@originaispizza.com</td>
+                <td><span style="color:var(--gold);font-weight:600">Super ADM</span></td>
+                <td id="adm1-access">–</td>
+              </tr>
+              <tr>
+                <td>🔑 Arthur Ferruci</td>
+                <td>arthur@originaispizza.com</td>
+                <td><span style="color:var(--gold);font-weight:600">Super ADM</span></td>
+                <td id="adm2-access">–</td>
+              </tr>
+              <tr>
+                <td>🔑 Guilherme Honorato</td>
+                <td>guilherme@originaispizza.com</td>
+                <td><span style="color:var(--cream)">ADM</span></td>
+                <td id="adm3-access">–</td>
+              </tr>
+              <tr>
+                <td>🔑 Pedro Henrique</td>
+                <td>pedrohenrique@originaispizza.com</td>
+                <td><span style="color:var(--cream)">ADM</span></td>
+                <td id="adm4-access">–</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:0.75rem;color:var(--muted);margin-top:16px">
+          ℹ️ Os 4 administradores são fixos e definidos pela direção da pizzaria. Credenciais gerenciadas internamente.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <strong id="toast-title">Aviso</strong>
+  <span id="toast-msg">Mensagem</span>
+</div>
+
+<!-- Remova o <script> antigo e coloque este: -->
+<script type="module">
+
+// ── Importa tudo do db.js ──────────────────────────────────────────
+import {
+  registerUser, loginUser, loginAdmin, logoutUser,
+  onAuthChange, getUserProfile, getAllUsers, getActivities,
+  onActivitiesChange, getStats
+} from "./db.js";
+
+// ══════════ STATE ══════════
+const ADMINS = [
+  { name: 'Pedro Luiz',         email: 'pedro@originaispizza.com',        password: 'adm@pedro2026',        level: 'Super ADM', id: 1 },
+  { name: 'Arthur Ferruci',     email: 'arthur@originaispizza.com',       password: 'adm@arthur2026',       level: 'Super ADM', id: 2 },
+  { name: 'Guilherme Honorato', email: 'guilherme@originaispizza.com',    password: 'adm@guilherme2026',    level: 'ADM',       id: 3 },
+  { name: 'Pedro Henrique',     email: 'pedrohenrique@originaispizza.com',password: 'adm@pedrohenrique2026',level: 'ADM',       id: 4 },
+];
+
+let currentUser = null;
+
+// ══════════ OBSERVER DE SESSÃO (Firebase Auth) ══════════
+// Mantém currentUser sincronizado automaticamente
+onAuthChange(async (firebaseUser) => {
+  if (firebaseUser) {
+    const profile = await getUserProfile(firebaseUser.uid);
+    if (profile) {
+      currentUser = { name: profile.name, email: profile.email, isAdm: false, uid: firebaseUser.uid, profile };
+      updateNav();
+    }
+  } else {
+    // Só limpa se não for um admin (admins não usam Firebase Auth)
+    const stored = JSON.parse(sessionStorage.getItem('adm_session') || 'null');
+    if (!stored) {
+      currentUser = null;
+      updateNav();
+    }
+  }
+});
+
+// ══════════ PAGES ══════════
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  window.scrollTo(0, 0);
+  updateNav();
+  if (name === 'dashboard') renderDashboard();
+  if (name === 'profile') renderProfile();
+  document.getElementById('login-alert').innerHTML = '';
+  document.getElementById('register-alert').innerHTML = '';
+}
+window.showPage = showPage; // Expõe para os onclick do HTML
+
+function scrollToMenu() {
+  showPage('home');
+  setTimeout(() => {
+    document.getElementById('menu-section').scrollIntoView({ behavior: 'smooth' });
+  }, 50);
+}
+window.scrollToMenu = scrollToMenu;
+
+function updateNav() {
+  const btn = document.getElementById('nav-auth-btn');
+  if (currentUser) {
+    const isAdm = ADMINS.find(a => a.email === currentUser.email);
+    btn.innerHTML = `
+      <span style="font-size:0.8rem;color:var(--cream-dim);margin-right:16px;cursor:pointer" onclick="showPage('profile')">
+        Olá, ${currentUser.name.split(' ')[0]}
+      </span>
+      ${isAdm ? `<button class="btn-nav" onclick="showPage('dashboard')" style="margin-right:8px">Dashboard</button>` : ''}
+      <button class="btn-nav" onclick="doLogout()">Sair</button>
+    `;
+  } else {
+    btn.innerHTML = `<button class="btn-nav" onclick="showPage('login')">Entrar</button>`;
+  }
+}
+
+// ══════════ AUTH ══════════
+
+// ── LOGIN ──────────────────────────────────────────────────────────
+async function doLogin() {
+  const email    = document.getElementById('login-email').value.trim();
+  const pass     = document.getElementById('login-password').value;
+  const alertEl  = document.getElementById('login-alert');
+
+  if (!email || !pass) {
+    return showAlert(alertEl, 'error', 'Preencha e-mail e senha.');
+  }
+
+  // Tenta login de administrador primeiro
+  const admCheck = ADMINS.find(a => a.email === email && a.password === pass);
+  if (admCheck) {
+    const result = await loginAdmin(email, pass);
+    if (result.success) {
+      currentUser = { name: admCheck.name, email: admCheck.email, isAdm: true, admId: admCheck.id };
+      sessionStorage.setItem('adm_session', JSON.stringify(currentUser));
+      showToast('Acesso ADM', `Bem-vindo, ${admCheck.name.split(' ')[0]}!`);
+      showPage('dashboard');
+    } else {
+      showAlert(alertEl, 'error', result.error);
+    }
+    return;
+  }
+
+  // Login de usuário comum via Firebase
+  const result = await loginUser(email, pass);
+  if (result.success) {
+    currentUser = {
+      name:   result.profile?.name || email,
+      email:  result.user.email,
+      isAdm:  false,
+      uid:    result.user.uid,
+      profile: result.profile
+    };
+    showToast('Login feito!', `Bem-vindo de volta, ${currentUser.name.split(' ')[0]}!`);
+    showPage('profile');
+  } else {
+    showAlert(alertEl, 'error', result.error);
+  }
+}
+window.doLogin = doLogin;
+
+// ── CADASTRO ───────────────────────────────────────────────────────
+async function doRegister() {
+  const name    = document.getElementById('reg-name').value.trim();
+  const cpf     = document.getElementById('reg-cpf').value.trim();
+  const email   = document.getElementById('reg-email').value.trim();
+  const address = document.getElementById('reg-address').value.trim();
+  const pass    = document.getElementById('reg-password').value;
+  const payment = document.getElementById('reg-payment').value;
+  const card    = document.getElementById('reg-card').value.trim();
+  const expiry  = document.getElementById('reg-expiry').value.trim();
+  const alertEl = document.getElementById('register-alert');
+
+  // Validações
+  if (!name || !cpf || !email || !address || !pass || !payment) {
+    return showAlert(alertEl, 'error', 'Preencha todos os campos obrigatórios.');
+  }
+  if (pass.length < 6) {
+    return showAlert(alertEl, 'error', 'A senha precisa ter pelo menos 6 caracteres.');
+  }
+  if (ADMINS.find(a => a.email === email)) {
+    return showAlert(alertEl, 'error', 'Este e-mail não pode ser usado.');
+  }
+
+  // Mostra loading no botão
+  const btn = document.querySelector('#page-register .btn-full');
+  btn.textContent = 'Criando conta...';
+  btn.disabled = true;
+
+  // Chama a função do db.js ← AQUI É A MÁGICA
+  const result = await registerUser({ name, cpf, email, address, password: pass, payment, card, expiry });
+
+  btn.textContent = 'Criar Minha Conta';
+  btn.disabled = false;
+
+  if (result.success) {
+    currentUser = { name, email, isAdm: false, uid: result.user.uid };
+    showToast('Conta criada!', `Seja bem-vindo(a), ${name.split(' ')[0]}!`);
+    showPage('profile');
+  } else {
+    showAlert(alertEl, 'error', result.error);
+  }
+}
+window.doRegister = doRegister;
+
+// ── LOGOUT ─────────────────────────────────────────────────────────
+async function doLogout() {
+  const name = currentUser?.name || 'Usuário';
+  await logoutUser(name);
+  sessionStorage.removeItem('adm_session');
+  currentUser = null;
+  updateNav();
+  showPage('home');
+  showToast('Até logo!', 'Sessão encerrada com sucesso.');
+}
+window.doLogout = doLogout;
+
+// ══════════ ACTIVITY ITEM HELPER ══════════
+function activityItem(a) {
+  const dotClass   = a.type === 'login' ? 'dot-login' : a.type === 'register' ? 'dot-register' : 'dot-logout';
+  const badgeClass = a.type === 'login' ? 'badge-login' : a.type === 'register' ? 'badge-register' : 'badge-logout';
+  const label      = a.type === 'login' ? 'LOGIN' : a.type === 'register' ? 'CADASTRO' : 'LOGOUT';
+  return `
+    <div class="activity-item">
+      <div class="activity-dot ${dotClass}"></div>
+      <div class="activity-text"><strong>${a.user}</strong> — ${a.description}</div>
+      <span class="activity-badge ${badgeClass}">${label}</span>
+      <div class="activity-time">${a.timeFmt || ''}</div>
+    </div>
+  `;
+}
+
+// ══════════ DASHBOARD RENDER ══════════
+
+async function renderDashboard() {
+  const adm = currentUser && ADMINS.find(a => a.email === currentUser.email);
+  if (adm) {
+    document.getElementById('dash-greeting').textContent = adm.name.split(' ')[0];
+    document.getElementById('dash-admin-name').textContent = adm.name.split(' ')[0];
+    document.getElementById('dash-avatar').textContent = adm.name[0];
+  }
+
+  // Busca dados reais do Firestore
+  const [users, stats, activities] = await Promise.all([
+    getAllUsers(),
+    getStats(),
+    getActivities(50)
+  ]);
+
+  // KPIs
+  document.getElementById('kpi-total').textContent     = users.length;
+  document.getElementById('kpi-logins').textContent    = stats.loginCountToday || 0;
+  document.getElementById('kpi-active').textContent    = currentUser ? 1 : 0;
+  document.getElementById('kpi-registers').textContent = stats.registersToday || 0;
+  document.getElementById('kpi-total-change').textContent = `↑ ${stats.registersToday || 0} novos hoje`;
+
+  // Bar chart
+  const weekData = stats.weekData || [0,0,0,0,0,0,0];
+  const days = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+  const max = Math.max(...weekData, 1);
+  const chart = document.getElementById('bar-chart');
+  chart.innerHTML = weekData.map((v, i) => `
+    <div class="bar-group">
+      <div class="bar" style="height:${Math.max(8, (v/max)*100)}px" title="${v} logins"></div>
+      <div class="bar-label">${days[i]}</div>
+    </div>
+  `).join('');
+
+  // Activity mini (5 últimas)
+  const mini = document.getElementById('activity-list-mini');
+  const miniItems = activities.slice(0, 5);
+  mini.innerHTML = miniItems.length
+    ? miniItems.map(a => activityItem(a)).join('')
+    : '<p style="color:var(--muted);font-size:0.8rem;padding:12px 0">Nenhuma atividade registrada.</p>';
+
+  // Activity full
+  const full = document.getElementById('activity-list-full');
+  full.innerHTML = activities.length
+    ? activities.map(a => activityItem(a)).join('')
+    : '<p style="color:var(--muted);font-size:0.8rem;padding:12px 0">Nenhuma atividade registrada.</p>';
+
+  // Users table
+  const tbody = document.getElementById('users-table-body');
+  tbody.innerHTML = users.length
+    ? users.map(u => `
+      <tr>
+        <td>${u.name}</td>
+        <td>${u.email}</td>
+        <td>${u.cpf}</td>
+        <td>${paymentLabel(u.payment)}</td>
+        <td>${u.registeredAt ? new Date(u.registeredAt.seconds * 1000).toLocaleDateString('pt-BR') : '—'}</td>
+        <td><span class="status-dot"></span>Ativo</td>
+      </tr>
+    `).join('')
+    : `<tr><td colspan="6" style="color:var(--muted);text-align:center;padding:32px">Nenhum usuário cadastrado ainda.</td></tr>`;
+}
+window.renderDashboard = renderDashboard;
+window.switchDashTab = function(el, tabId) {
+  document.querySelectorAll('.sidebar-nav-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  ['tab-overview','tab-users','tab-activity','tab-admins'].forEach(t => {
+    document.getElementById(t).style.display = t === tabId ? 'block' : 'none';
+  });
+  renderDashboard();
+};
+
+// ══════════ PROFILE ══════════
+async function renderProfile() {
+  if (!currentUser) return showPage('login');
+
+  let user = currentUser.profile;
+
+  // Se não tem profile em memória, busca no Firestore
+  if (!user && currentUser.uid) {
+    user = await getUserProfile(currentUser.uid);
+  }
+
+  // Admin visitando perfil
+  if (!user) {
+    const adm = ADMINS.find(a => a.email === currentUser.email);
+    if (adm) {
+      document.getElementById('profile-avatar').textContent = adm.name[0];
+      document.getElementById('profile-name').textContent   = adm.name;
+      document.getElementById('profile-email-disp').textContent = adm.email + ' · Administrador';
+      document.getElementById('pf-name').textContent    = adm.name;
+      document.getElementById('pf-cpf').textContent     = '***.***.***-**';
+      document.getElementById('pf-email').textContent   = adm.email;
+      document.getElementById('pf-address').textContent = 'Originais Pizza — Sede';
+      document.getElementById('pf-payment').textContent = 'Interno';
+      document.getElementById('pf-card').textContent    = '—';
+      document.getElementById('pf-expiry').textContent  = '—';
+      document.getElementById('pf-date').textContent    = '01/01/1987';
+      document.getElementById('pf-logins').textContent  = '∞';
+    }
+    return;
+  }
+
+  // Usuário comum
+  const dateStr = user.registeredAt
+    ? new Date(user.registeredAt.seconds * 1000).toLocaleDateString('pt-BR')
+    : '—';
+
+  document.getElementById('profile-avatar').textContent    = user.name[0].toUpperCase();
+  document.getElementById('profile-name').textContent      = user.name;
+  document.getElementById('profile-email-disp').textContent = user.email;
+  document.getElementById('pf-name').textContent    = user.name;
+  document.getElementById('pf-cpf').textContent     = user.cpf;
+  document.getElementById('pf-email').textContent   = user.email;
+  document.getElementById('pf-address').textContent = user.address;
+  document.getElementById('pf-payment').textContent = paymentLabel(user.payment);
+  document.getElementById('pf-card').textContent    = user.card || '—';
+  document.getElementById('pf-expiry').textContent  = user.expiry || '—';
+  document.getElementById('pf-date').textContent    = dateStr;
+  document.getElementById('pf-logins').textContent  = user.loginCount || 0;
+}
+window.renderProfile = renderProfile;
+
+// ══════════ MASKS (mantidas iguais) ══════════
+function maskCPF(el) {
+  let v = el.value.replace(/\D/g,'').slice(0,11);
+  if (v.length > 9) v = v.slice(0,3)+'.'+v.slice(3,6)+'.'+v.slice(6,9)+'-'+v.slice(9);
+  else if (v.length > 6) v = v.slice(0,3)+'.'+v.slice(3,6)+'.'+v.slice(6);
+  else if (v.length > 3) v = v.slice(0,3)+'.'+v.slice(3);
+  el.value = v;
+}
+function maskCard(el) {
+  let v = el.value.replace(/\D/g,'').slice(0,16);
+  v = v.replace(/(.{4})/g,'$1 ').trim();
+  el.value = v;
+}
+function maskExpiry(el) {
+  let v = el.value.replace(/\D/g,'').slice(0,4);
+  if (v.length > 2) v = v.slice(0,2)+'/'+v.slice(2);
+  el.value = v;
+}
+window.maskCPF = maskCPF;
+window.maskCard = maskCard;
+window.maskExpiry = maskExpiry;
+
+function paymentLabel(p) {
+  const map = { credit:'Cartão de Crédito', debit:'Cartão de Débito', pix:'PIX', cash:'Dinheiro', voucher:'Vale Refeição' };
+  return map[p] || p;
+}
+
+// ══════════ UI HELPERS ══════════
+function showAlert(el, type, msg) {
+  el.innerHTML = `<div class="alert alert-${type}">${msg}</div>`;
+}
+
+let toastTimer;
+function showToast(title, msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-title').textContent = title;
+  document.getElementById('toast-msg').textContent   = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ══════════ INIT ══════════
+document.addEventListener('DOMContentLoaded', () => {
+  // Restaura sessão de admin (se houver)
+  const admSession = JSON.parse(sessionStorage.getItem('adm_session') || 'null');
+  if (admSession) {
+    currentUser = admSession;
+    updateNav();
+  }
+
+  // Card fields toggle
+  const sel   = document.getElementById('reg-payment');
+  const cardF = document.getElementById('card-fields');
+  sel.addEventListener('change', () => {
+    cardF.style.display = (sel.value === 'credit' || sel.value === 'debit') ? 'block' : 'none';
+  });
+  cardF.style.display = 'none';
+
+  // Gera chamas (flame particles) — mantido igual
+  const container = document.getElementById('flames');
+  for (let i = 0; i < 40; i++) {
+    const f = document.createElement('div');
+    f.className = 'flame';
+    const left     = Math.random() * 100;
+    const height   = 40 + Math.random() * 140;
+    const duration = 1.5 + Math.random() * 2;
+    const delay    = Math.random() * 3;
+    const hue      = Math.random() > 0.5 ? 'rgba(196,30,58,' : 'rgba(212,175,55,';
+    f.style.cssText = `
+      left:${left}%;
+      height:${height}px;
+      background: linear-gradient(to top, ${hue}0.9), ${hue}0.4), transparent);
+      animation-duration:${duration}s;
+      animation-delay:${delay}s;
+      box-shadow: 0 0 ${8+Math.random()*12}px ${hue}0.6)};
+    `;
+    container.appendChild(f);
+  }
+});
+
+</script>
+</body>
+</html>
